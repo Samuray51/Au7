@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<locale.h>
 #include<windows.h>
-int Max(int *mas, int k)
+int Max(int *mas, int k, char *substring, char **mas1)
 {
 	int i = 0, max = 0, max1 = 0;
 	for (i; i <= k; i++)
@@ -13,7 +13,11 @@ int Max(int *mas, int k)
 			max1 = i;
 		}
 	}
-	return max1;
+	for (i=0; i <= max; i++)
+	{
+		substring[i] = mas1[max1][i];
+	}
+	return max;
 }
 
 
@@ -42,7 +46,8 @@ int main()
 	fopen_s(&out, "output.txt", "w");
 
 	int i = 0, j = 0, k = 0, m = 2000, *leight;
-	char n, **mas;
+	char n, **mas, *substring;
+	substring = (char*)malloc(m * sizeof(char));
 	leight = (int*)malloc(m * sizeof(int));
 	mas = (char**)malloc(m * sizeof(char*));
 	for (i = 0; i < m; i++)
@@ -83,13 +88,20 @@ int main()
 		printf("\n");
 	}
 
-	i = Max(leight, i);
-	printf("%s", mas[i]);
-	fprintf(out, "%s", mas[i]);
+	k = Max(leight, i, substring, mas);
+
+	for (i = 0; i < k; i++)
+	{
+		printf("%c", substring[i]);
+		fprintf(out, "%c", substring[i]);
+	}
+
+	
 
 	fclose(in);
 	fclose(out);
 	free(leight);
+	free(substring);
 	for (i = 0; i < m; i++)
 	{
 		free(mas[i]);
